@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+  "fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -23,11 +23,11 @@ func main() {
 
 	rl.SetTargetFPS(60)
 
-	levelContent, err := ioutil.ReadFile("level.txt")
-	if err != nil {
-		return
-	}
-	level := ParseWorld(string(levelContent))
+  level, err := ParseLevel("level.txt", "enemies.txt")
+  if err != nil {
+    fmt.Printf("Error: %v", err)
+    return
+  }
 	tileset := rl.LoadTexture("tileset.png")
 	arrows := rl.LoadTexture("arrows.png")
 
