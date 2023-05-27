@@ -47,42 +47,43 @@ func main() {
 			drawWorld(level, 0, 0, tileset)
 			drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
 			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
-      isGameOver = !player.CanMove(&level)
+			isGameOver = !player.CanMove(&level)
 			if player.Action(&level) {
-        player.CheckTrap(&level)
-        for _, e := range level.enemies {
-          e.Action(&level, &player)
-        }
-      }
-      for _, e := range level.enemies{
-        drawEnnemy(tileset, int(e.pos.X)*8, int(e.pos.Y)*8)
-      }
-      if player.CheckExit(&level) {
-        currentLevel += 1
-        level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
-        if err != nil {
-          fmt.Printf("Error: %v", err)
-          return
-        }
-        player.pos = rl.NewVector2(6, 3)
-      }
+				player.CheckTrap(&level)
+				for _, e := range level.enemies {
+					e.Action(&level, &player)
+				}
+			}
+			for _, e := range level.enemies {
+				drawEnnemy(tileset, int(e.pos.X)*8, int(e.pos.Y)*8)
+			}
+			if player.CheckExit(&level) {
+				currentLevel += 1
+				level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
+				if err != nil {
+					fmt.Printf("Error: %v", err)
+					return
+				}
+				player.pos = rl.NewVector2(6, 3)
+			}
 			camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 			rl.EndMode2D()
 			drawNextKeys(arrowsBig, &player)
+			drawHealth(&player)
 			rl.EndDrawing()
 		} else {
 			rl.BeginDrawing()
 			drawGameOverScreen(screenWidth, screenHeight)
-      if rl.IsKeyPressed(rl.KeyR) {
-        player = NewPlayer("chars.png")
-        currentLevel = 1
-        level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
-        if err != nil {
-          fmt.Printf("Error: %v", err)
-          return
-        }
-        isGameOver = false
-      }
+			if rl.IsKeyPressed(rl.KeyR) {
+				player = NewPlayer("chars.png")
+				currentLevel = 1
+				level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
+				if err != nil {
+					fmt.Printf("Error: %v", err)
+					return
+				}
+				isGameOver = false
+			}
 			rl.EndDrawing()
 		}
 	}

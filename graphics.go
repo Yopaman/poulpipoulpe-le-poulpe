@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -24,11 +26,11 @@ var tilesetCoords = map[int](func(n int) rl.Vector2){
 	3: func(tile int) rl.Vector2 {
 		return rl.NewVector2(16, 32)
 	},
-  // Entry
+	// Entry
 	4: func(tile int) rl.Vector2 {
 		return rl.NewVector2(168, 8)
 	},
-  // Exit
+	// Exit
 	5: func(tile int) rl.Vector2 {
 		return rl.NewVector2(176, 8)
 	},
@@ -150,7 +152,7 @@ func drawNextKeys(texture rl.Texture2D, p *Player) {
 func drawGameOverScreen(screenWidth int32, screenHeight int32) {
 	rl.ClearBackground(rl.Black)
 	rl.DrawText("Game Over !", screenWidth/2-rl.MeasureText("Game Over !", 50)/2, screenHeight/2-30, 50, rl.White)
-	rl.DrawText("Appuyez sur R pour recommencer", screenWidth/2-rl.MeasureText("Appuyez sur R pour recommencer", 30)/2, screenHeight/2+100, 30, rl.White)
+	rl.DrawText("Appuyez sur une touche pour recommencer", screenWidth/2-rl.MeasureText("Appuyez sur une touche pour recommencer", 30)/2, screenHeight/2+100, 30, rl.White)
 }
 
 func drawEnnemy(texture rl.Texture2D, x int, y int) {
@@ -163,4 +165,8 @@ func drawEnemies(texture rl.Texture2D, level *Level) {
 	for _, e := range level.enemies {
 		drawEnnemy(texture, int(e.pos.X*8), int(e.pos.Y*8))
 	}
+}
+
+func drawHealth(p *Player) {
+	rl.DrawText("Sante : "+strconv.Itoa(int(p.health)), int32(rl.GetScreenWidth())-100, 10, 20, rl.White)
 }
