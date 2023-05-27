@@ -25,16 +25,19 @@ func main() {
 	}
 	level := ParseWorld(string(levelContent))
 	tileset := rl.LoadTexture("tileset.png")
+	player := rl.LoadTexture("chars.png")
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.BeginMode2D(camera)
 		drawWorld(level, 20, 20, tileset)
+		drawPlayer(player, 2, 4, 20, 20, 1)
 		rl.EndMode2D()
 		rl.EndDrawing()
 	}
 
 	rl.UnloadTexture(tileset)
+	rl.UnloadTexture(player)
 
 	rl.CloseWindow()
 }

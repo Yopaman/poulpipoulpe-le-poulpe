@@ -9,10 +9,10 @@ const (
 	KindBase = iota
 	// KindPoison 'P' is the kind for a poison trap
 	KindPoison
-  KindPoisonDeactivated
+	KindPoisonDeactivated
 	// KindMovement 'M' is the kind of a movement trap
 	KindMovement
-  KindMovementDeactivated
+	KindMovementDeactivated
 	// KindWall '#' is the kind for a wall
 	KindWall
 )
