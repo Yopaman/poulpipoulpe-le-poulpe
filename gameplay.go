@@ -1,7 +1,10 @@
 package main
 
 import (
-	"github.com/gen2brain/raylib-go/raylib"
+	"fmt"
+	"math/rand"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type Item struct {
@@ -19,12 +22,13 @@ type Enemy struct {
 }
 
 type Player struct {
-	health      int8
-	pos         rl.Vector2
-	orientation int
-	inventory   map[Item]int
-	keys        map[int32]bool
-	texture     rl.Texture2D
+	health          int8
+	pos             rl.Vector2
+	orientation     int
+	inventory       map[Item]int
+	keys            map[int32]bool
+	texture         rl.Texture2D
+	nextKeysRemoved []int
 }
 
 func NewPlayer(file string) Player {
@@ -55,6 +59,7 @@ func (p *Player) Action(l *Level) bool {
 		if v.kind != KindWall {
 			p.pos.Y -= 1
 			p.orientation = 0
+			desactivateNextKey(p)
 			return true
 		}
 	} else if p.keys[rl.KeyDown] && rl.IsKeyPressed(rl.KeyDown) {
@@ -62,6 +67,7 @@ func (p *Player) Action(l *Level) bool {
 		if v.kind != KindWall {
 			p.pos.Y += 1
 			p.orientation = 2
+			desactivateNextKey(p)
 			return true
 		}
 	} else if p.keys[rl.KeyLeft] && rl.IsKeyPressed(rl.KeyLeft) {
@@ -69,6 +75,7 @@ func (p *Player) Action(l *Level) bool {
 		if v.kind != KindWall {
 			p.pos.X -= 1
 			p.orientation = 3
+			desactivateNextKey(p)
 			return true
 		}
 	} else if p.keys[rl.KeyRight] && rl.IsKeyPressed(rl.KeyRight) {
@@ -76,8 +83,37 @@ func (p *Player) Action(l *Level) bool {
 		if v.kind != KindWall {
 			p.pos.X += 1
 			p.orientation = 1
+			desactivateNextKey(p)
 			return true
 		}
 	}
+
 	return false
+}
+
+func desactivateNextKey(p *Player) {
+	fmt.Printf("%v\n", p.nextKeysRemoved)
+	for k, _ := range p.keys {
+		p.keys[k] = true
+	}
+	toRemove := p.nextKeysRemoved[0]
+	p.nextKeysRemoved = p.nextKeysRemoved[1:]
+	for k, _ := range p.keys {
+		if toRemove == 0 {
+			p.keys[k] = false
+		}
+		toRemove--
+	}
+	randomKey := rand.Intn(5)
+	p.nextKeysRemoved = append(p.nextKeysRemoved, randomKey)
+}
+
+func generateKeysRemoved(p *Player) {
+	randomKey := rand.Intn(5)
+	keys := make([]int, randomKey)
+	for i := 0; i < 4; i++ {
+		randomKey := rand.Intn(5)
+		keys = append(keys, randomKey)
+	}
+	p.nextKeysRemoved = keys
 }
