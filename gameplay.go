@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -42,6 +41,7 @@ func NewPlayer(file string) Player {
 	}
 	p.pos = rl.NewVector2(6, 3)
 	p.texture = t
+  p.orientation = 2
 	return p
 }
 

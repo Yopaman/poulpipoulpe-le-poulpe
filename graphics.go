@@ -12,12 +12,12 @@ var tilesetCoords = map[int](func(n int) rl.Vector2){
 	},
 	// Poison trap
 	1: func(tile int) rl.Vector2 {
-		textures := [2]rl.Vector2{rl.NewVector2(168, 32), rl.NewVector2(168, 23)}
+		textures := [2]rl.Vector2{rl.NewVector2(168, 23), rl.NewVector2(168, 32)}
 		return textures[tile]
 	},
 	// Movement trap
 	2: func(tile int) rl.Vector2 {
-		textures := [2]rl.Vector2{rl.NewVector2(168, 32), rl.NewVector2(168, 23)}
+		textures := [2]rl.Vector2{rl.NewVector2(176, 23), rl.NewVector2(176, 32)}
 		return textures[tile]
 	},
 	// Wall

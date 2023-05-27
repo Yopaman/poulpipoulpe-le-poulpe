@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+  "math"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -33,6 +34,8 @@ func main() {
 	arrowsBig := rl.LoadTexture("arrows_big.png")
 
 	for !rl.WindowShouldClose() {
+    camera.Zoom += rl.GetMouseWheelMove()*0.05
+    camera.Zoom = float32(math.Max(float64(camera.Zoom), 3.0))
 		rl.BeginDrawing()
 		rl.BeginMode2D(camera)
 		rl.ClearBackground(rl.Black)
