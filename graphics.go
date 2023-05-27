@@ -118,13 +118,13 @@ func drawArrow(texture rl.Texture2D, x int, y int, key int) {
 
 	switch key {
 	case rl.KeyUp:
-		tile = rl.NewRectangle(16, 0, 8, 8)
+		tile = rl.NewRectangle(64, 0, 32, 32)
 	case rl.KeyRight:
-		tile = rl.NewRectangle(24, 0, 8, 8)
+		tile = rl.NewRectangle(96, 0, 32, 32)
 	case rl.KeyDown:
-		tile = rl.NewRectangle(0, 0, 8, 8)
+		tile = rl.NewRectangle(0, 0, 32, 32)
 	case rl.KeyLeft:
-		tile = rl.NewRectangle(8, 0, 8, 8)
+		tile = rl.NewRectangle(32, 0, 32, 32)
 	}
 
 	rl.DrawTextureRec(texture, tile, position, rl.White)
@@ -135,6 +135,6 @@ func drawNextKeys(texture rl.Texture2D, p *Player) {
 	yPos := 10
 	for _, key := range p.nextKeysRemoved {
 		drawArrow(texture, xPos, yPos, key)
-		xPos += 12
+		xPos += 40
 	}
 }

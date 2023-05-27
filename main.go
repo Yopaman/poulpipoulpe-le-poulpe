@@ -30,6 +30,7 @@ func main() {
 	}
 	tileset := rl.LoadTexture("tileset.png")
 	arrows := rl.LoadTexture("arrows.png")
+	arrowsBig := rl.LoadTexture("arrows_big.png")
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
@@ -41,13 +42,14 @@ func main() {
 		player.Action(&level)
 		camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 		rl.EndMode2D()
-		drawNextKeys(arrows, &player)
+		drawNextKeys(arrowsBig, &player)
 		rl.EndDrawing()
 	}
 
 	rl.UnloadTexture(tileset)
 	rl.UnloadTexture(player.texture)
 	rl.UnloadTexture(arrows)
+	rl.UnloadTexture(arrowsBig)
 
 	rl.CloseWindow()
 }
