@@ -30,6 +30,8 @@ type Player struct {
 	nextKeysRemoved []int
 }
 
+var possibleKeys = [4]int{rl.KeyRight, rl.KeyDown, rl.KeyLeft, rl.KeyUp}
+
 func NewPlayer(file string) Player {
 	t := rl.LoadTexture(file)
 	var p Player
@@ -43,6 +45,29 @@ func NewPlayer(file string) Player {
 	p.texture = t
 	p.orientation = 2
 	return p
+}
+
+func desactivateNextKey(p *Player) {
+	for k := range p.keys {
+		p.keys[k] = true
+	}
+
+	toRemove := int32(p.nextKeysRemoved[0])
+	p.nextKeysRemoved = p.nextKeysRemoved[1:]
+
+	p.keys[toRemove] = false
+
+	randomIndex := rand.Intn(4)
+	p.nextKeysRemoved = append(p.nextKeysRemoved, possibleKeys[randomIndex])
+}
+
+func generateKeysRemoved(p *Player) {
+	keys := make([]int, 0)
+	for i := 0; i < 4; i++ {
+		randomIndex := rand.Intn(4)
+		keys = append(keys, possibleKeys[randomIndex])
+	}
+	p.nextKeysRemoved = keys
 }
 
 /*
@@ -103,27 +128,15 @@ func (p *Player) Action(l *Level) bool {
 	return false
 }
 
-func desactivateNextKey(p *Player) {
-	for k := range p.keys {
-		p.keys[k] = true
-	}
-
-	toRemove := int32(p.nextKeysRemoved[0])
-	p.nextKeysRemoved = p.nextKeysRemoved[1:]
-
-	p.keys[toRemove] = false
-
-	possibleKeys := [4]int{rl.KeyRight, rl.KeyDown, rl.KeyLeft, rl.KeyUp}
-	randomIndex := rand.Intn(4)
-	p.nextKeysRemoved = append(p.nextKeysRemoved, possibleKeys[randomIndex])
-}
-
-func generateKeysRemoved(p *Player) {
-	possibleKeys := [4]int{rl.KeyRight, rl.KeyDown, rl.KeyLeft, rl.KeyUp}
-	keys := make([]int, 0)
-	for i := 0; i < 4; i++ {
-		randomIndex := rand.Intn(4)
-		keys = append(keys, possibleKeys[randomIndex])
-	}
-	p.nextKeysRemoved = keys
+func (p *Player) CheckTrap(l *Level) bool {
+  if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindPoison && c.tile == 0 {
+    c.tile = 1
+    l.cases[int(p.pos.X)][int(p.pos.Y)] = c
+    // TODO
+  } else if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindMovement && c.tile == 0 {
+    c.tile = 1
+    l.cases[int(p.pos.X)][int(p.pos.Y)] = c
+    p.keys[int32(possibleKeys[rand.Intn(4)])] = false
+  }
+  return false
 }

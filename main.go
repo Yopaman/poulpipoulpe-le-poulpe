@@ -48,6 +48,7 @@ func main() {
 			drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
 			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
 			player.Action(&level)
+      player.CheckTrap(&level)
 			camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 			rl.EndMode2D()
 			drawNextKeys(arrowsBig, &player)
