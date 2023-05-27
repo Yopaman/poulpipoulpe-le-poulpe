@@ -19,11 +19,12 @@ type Enemy struct {
 }
 
 type Player struct {
-	health    int8
-	pos       rl.Vector2
-	inventory map[Item]int
-	keys      map[int32]bool
-	texture   rl.Texture2D
+	health      int8
+	pos         rl.Vector2
+	orientation int
+	inventory   map[Item]int
+	keys        map[int32]bool
+	texture     rl.Texture2D
 }
 
 func NewPlayer(file string) Player {
@@ -53,24 +54,28 @@ func (p *Player) Action(l *Level) bool {
 		v := l.cases[int(p.pos.X)][int(p.pos.Y)-1]
 		if v.kind != KindWall {
 			p.pos.Y -= 1
+			p.orientation = 0
 			return true
 		}
 	} else if p.keys[rl.KeyDown] && rl.IsKeyPressed(rl.KeyDown) {
 		v := l.cases[int(p.pos.X)][int(p.pos.Y)+1]
 		if v.kind != KindWall {
 			p.pos.Y += 1
+			p.orientation = 2
 			return true
 		}
 	} else if p.keys[rl.KeyLeft] && rl.IsKeyPressed(rl.KeyLeft) {
 		v := l.cases[int(p.pos.X)-1][int(p.pos.Y)]
 		if v.kind != KindWall {
 			p.pos.X -= 1
+			p.orientation = 3
 			return true
 		}
 	} else if p.keys[rl.KeyRight] && rl.IsKeyPressed(rl.KeyRight) {
 		v := l.cases[int(p.pos.X)+1][int(p.pos.Y)]
 		if v.kind != KindWall {
 			p.pos.X += 1
+			p.orientation = 1
 			return true
 		}
 	}

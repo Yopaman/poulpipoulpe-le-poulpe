@@ -34,7 +34,7 @@ func main() {
 		rl.BeginMode2D(camera)
 		rl.ClearBackground(rl.Black)
 		drawWorld(level, 0, 0, tileset)
-		drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, 1)
+		drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
 		player.Action(&level)
 		camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 		rl.EndMode2D()
