@@ -170,3 +170,7 @@ func drawEnemies(texture rl.Texture2D, level *Level) {
 func drawHealth(p *Player) {
 	rl.DrawText("Sante : "+strconv.Itoa(int(p.health)), int32(rl.GetScreenWidth())-100, 10, 20, rl.White)
 }
+
+func drawEnd(screenWidth int32, screenHeight int32) {
+	rl.DrawText("Bravo !", screenWidth/2-rl.MeasureText("Bravo !", 30)/2, screenHeight/2+100, 30, rl.White)
+}
