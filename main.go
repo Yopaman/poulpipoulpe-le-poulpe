@@ -26,9 +26,9 @@ func main() {
 
 	rl.SetTargetFPS(60)
 
-	currentLevel := "1"
+	currentLevel := 1
 
-	level, err := ParseLevel("level"+currentLevel+".txt", "enemies"+currentLevel+".txt")
+	level, err := ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
@@ -49,6 +49,15 @@ func main() {
 			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
 			player.Action(&level)
 			player.CheckTrap(&level)
+      if player.CheckExit(&level) {
+        currentLevel += 1
+        level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
+        if err != nil {
+          fmt.Printf("Error: %v", err)
+          return
+        }
+        player.pos = rl.NewVector2(6, 3)
+      }
 			camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 			for _, e := range level.enemies {
 				e.Action(&level, &player)

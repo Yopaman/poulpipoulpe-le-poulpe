@@ -24,9 +24,11 @@ var tilesetCoords = map[int](func(n int) rl.Vector2){
 	3: func(tile int) rl.Vector2 {
 		return rl.NewVector2(16, 32)
 	},
+  // Entry
 	4: func(tile int) rl.Vector2 {
 		return rl.NewVector2(168, 8)
 	},
+  // Exit
 	5: func(tile int) rl.Vector2 {
 		return rl.NewVector2(176, 8)
 	},

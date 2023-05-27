@@ -143,3 +143,7 @@ func (p *Player) CheckTrap(l *Level) bool {
 	}
 	return false
 }
+
+func (p *Player) CheckExit(l *Level) bool {
+  return l.cases[int(p.pos.X)][int(p.pos.Y)].kind == KindExit
+}

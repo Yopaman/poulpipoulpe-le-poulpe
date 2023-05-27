@@ -77,6 +77,9 @@ func ParseEnemies(input string) []Enemy {
 	for y, row := range enemiesInput {
 		enemies[y] = Enemy{}
 		infos := strings.Split(strings.TrimSpace(row), " ")
+    if len(infos) != 6 {
+      return enemies
+    }
 		enemies[y].sort = readInt(infos[0])
 		enemies[y].health = readInt(infos[1])
 		enemies[y].damage = readInt(infos[2])
