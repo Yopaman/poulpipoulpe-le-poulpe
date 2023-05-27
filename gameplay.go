@@ -147,3 +147,13 @@ func (p *Player) CheckTrap(l *Level) bool {
 func (p *Player) CheckExit(l *Level) bool {
 	return l.cases[int(p.pos.X)][int(p.pos.Y)].kind == KindExit
 }
+
+func (p *Player) CanMove(l *Level) bool {
+	for _, offset := range [][]int{{-1, 0, rl.KeyLeft}, {1, 0, rl.KeyRight}, {0, -1, rl.KeyUp}, {0, 1, rl.KeyDown}} {
+    if tile, ok := l.cases[int(p.pos.X)+offset[0]][int(p.pos.Y)+offset[1]]; ok && tile.kind != KindWall && p.keys[int32(offset[2])] {
+      return true
+    }
+  }
+  return false
+
+}

@@ -47,6 +47,7 @@ func main() {
 			drawWorld(level, 0, 0, tileset)
 			drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
 			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
+      isGameOver = !player.CanMove(&level)
 			if player.Action(&level) {
         player.CheckTrap(&level)
         for _, e := range level.enemies {
@@ -72,6 +73,16 @@ func main() {
 		} else {
 			rl.BeginDrawing()
 			drawGameOverScreen(screenWidth, screenHeight)
+      if rl.IsKeyPressed(rl.KeyR) {
+        player = NewPlayer("chars.png")
+        currentLevel = 1
+        level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
+        if err != nil {
+          fmt.Printf("Error: %v", err)
+          return
+        }
+        isGameOver = false
+      }
 			rl.EndDrawing()
 		}
 	}
