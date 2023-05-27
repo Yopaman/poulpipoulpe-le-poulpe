@@ -16,7 +16,6 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "test")
 
 	player := NewPlayer("chars.png")
-	generateKeysRemoved(&player)
 
 	camera := rl.Camera2D{}
 	camera.Offset = rl.NewVector2(float32(screenWidth)/2, float32(screenHeight)/2)
