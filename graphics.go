@@ -24,6 +24,12 @@ var tilesetCoords = map[int](func(n int) rl.Vector2){
 	3: func(tile int) rl.Vector2 {
 		return rl.NewVector2(16, 32)
 	},
+	4: func(tile int) rl.Vector2 {
+		return rl.NewVector2(168, 8)
+	},
+	5: func(tile int) rl.Vector2 {
+		return rl.NewVector2(176, 8)
+	},
 }
 
 func drawWorld(level Level, x int, y int, tileset rl.Texture2D) {
