@@ -24,8 +24,8 @@ var RuneKinds = map[rune]Case{
 }
 
 type Case struct {
-  kind int
-  tile int
+	kind int
+	tile int
 }
 
 type Level struct {
@@ -45,10 +45,10 @@ func ParseWorld(input string) Level {
 				if w.cases[x] == nil {
 					w.cases[x] = make(map[int]Case)
 				}
-        if caseKind.kind == KindWall {
-          caseKind.tile = rand.Intn(3)
-        }
-        w.cases[x][y] = caseKind
+				if caseKind.kind == KindBase {
+					caseKind.tile = rand.Intn(3)
+				}
+				w.cases[x][y] = caseKind
 			}
 		}
 	}
