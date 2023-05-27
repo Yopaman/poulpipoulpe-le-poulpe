@@ -50,7 +50,19 @@ Si le joueur est dans la range, on avance vers lui
 Si il est à porté, on l'attaque
 Sinon on ne fait rien.
 */
-func (e *Enemy) Action() {
+func (e *Enemy) Action(l *Level, p *Player) bool {
+  d := rl.Vector2Distance(p.pos, e.pos)
+  if d > float32(e.aggroRange) {
+    return false
+  }
+  for _, offset := range [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
+    nv := rl.NewVector2(e.pos.X + float32(offset[0]), e.pos.Y + float32(offset[1]))
+    if n, ok := l.cases[int(nv.X)][int(nv.Y)]; ok && n.kind != KindWall && rl.Vector2Distance(nv, p.pos) < d {
+      e.pos = nv
+      return true
+    }
+  }
+  return false
 }
 
 func (p *Player) Action(l *Level) bool {
@@ -92,9 +104,7 @@ func (p *Player) Action(l *Level) bool {
 }
 
 func desactivateNextKey(p *Player) {
-	fmt.Printf("%v\n", p.nextKeysRemoved)
-
-	for k, _ := range p.keys {
+	for k := range p.keys {
 		p.keys[k] = true
 	}
 
