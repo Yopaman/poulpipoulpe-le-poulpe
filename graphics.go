@@ -110,5 +110,31 @@ func drawArrows(texture rl.Texture2D, keys map[int32]bool, playerX float32, play
 	rl.DrawTextureRec(texture, tile2, position2, rl.ColorAlpha(rl.White, 0.5))
 	rl.DrawTextureRec(texture, tile3, position3, rl.ColorAlpha(rl.White, 0.5))
 	rl.DrawTextureRec(texture, tile4, position4, rl.ColorAlpha(rl.White, 0.5))
+}
 
+func drawArrow(texture rl.Texture2D, x int, y int, key int) {
+	var tile rl.Rectangle
+	position := rl.NewVector2(float32(x), float32(y))
+
+	switch key {
+	case rl.KeyUp:
+		tile = rl.NewRectangle(16, 0, 8, 8)
+	case rl.KeyRight:
+		tile = rl.NewRectangle(24, 0, 8, 8)
+	case rl.KeyDown:
+		tile = rl.NewRectangle(0, 0, 8, 8)
+	case rl.KeyLeft:
+		tile = rl.NewRectangle(8, 0, 8, 8)
+	}
+
+	rl.DrawTextureRec(texture, tile, position, rl.White)
+}
+
+func drawNextKeys(texture rl.Texture2D, p *Player) {
+	xPos := 10
+	yPos := 10
+	for _, key := range p.nextKeysRemoved {
+		drawArrow(texture, xPos, yPos, key)
+		xPos += 12
+	}
 }

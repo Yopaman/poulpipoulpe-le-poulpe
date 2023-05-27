@@ -93,27 +93,27 @@ func (p *Player) Action(l *Level) bool {
 
 func desactivateNextKey(p *Player) {
 	fmt.Printf("%v\n", p.nextKeysRemoved)
+
 	for k, _ := range p.keys {
 		p.keys[k] = true
 	}
-	toRemove := p.nextKeysRemoved[0]
+
+	toRemove := int32(p.nextKeysRemoved[0])
 	p.nextKeysRemoved = p.nextKeysRemoved[1:]
-	for k, _ := range p.keys {
-		if toRemove == 0 {
-			p.keys[k] = false
-		}
-		toRemove--
-	}
-	randomKey := rand.Intn(5)
-	p.nextKeysRemoved = append(p.nextKeysRemoved, randomKey)
+
+	p.keys[toRemove] = false
+
+	possibleKeys := [4]int{rl.KeyRight, rl.KeyDown, rl.KeyLeft, rl.KeyUp}
+	randomIndex := rand.Intn(4)
+	p.nextKeysRemoved = append(p.nextKeysRemoved, possibleKeys[randomIndex])
 }
 
 func generateKeysRemoved(p *Player) {
-	randomKey := rand.Intn(5)
-	keys := make([]int, randomKey)
+	possibleKeys := [4]int{rl.KeyRight, rl.KeyDown, rl.KeyLeft, rl.KeyUp}
+	keys := make([]int, 0)
 	for i := 0; i < 4; i++ {
-		randomKey := rand.Intn(5)
-		keys = append(keys, randomKey)
+		randomIndex := rand.Intn(4)
+		keys = append(keys, possibleKeys[randomIndex])
 	}
 	p.nextKeysRemoved = keys
 }

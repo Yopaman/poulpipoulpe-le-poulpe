@@ -1,7 +1,7 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -23,11 +23,11 @@ func main() {
 
 	rl.SetTargetFPS(60)
 
-  level, err := ParseLevel("level.txt", "enemies.txt")
-  if err != nil {
-    fmt.Printf("Error: %v", err)
-    return
-  }
+	level, err := ParseLevel("level.txt", "enemies.txt")
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
 	tileset := rl.LoadTexture("tileset.png")
 	arrows := rl.LoadTexture("arrows.png")
 
@@ -41,11 +41,13 @@ func main() {
 		player.Action(&level)
 		camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 		rl.EndMode2D()
+		drawNextKeys(arrows, &player)
 		rl.EndDrawing()
 	}
 
 	rl.UnloadTexture(tileset)
 	rl.UnloadTexture(player.texture)
+	rl.UnloadTexture(arrows)
 
 	rl.CloseWindow()
 }
