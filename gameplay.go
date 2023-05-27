@@ -135,7 +135,7 @@ func (p *Player) CheckTrap(l *Level) bool {
 	if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindPoison && c.tile == 0 {
 		c.tile = 1
 		l.cases[int(p.pos.X)][int(p.pos.Y)] = c
-		// TODO
+		p.health--
 	} else if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindMovement && c.tile == 0 {
 		c.tile = 1
 		l.cases[int(p.pos.X)][int(p.pos.Y)] = c
@@ -145,5 +145,5 @@ func (p *Player) CheckTrap(l *Level) bool {
 }
 
 func (p *Player) CheckExit(l *Level) bool {
-  return l.cases[int(p.pos.X)][int(p.pos.Y)].kind == KindExit
+	return l.cases[int(p.pos.X)][int(p.pos.Y)].kind == KindExit
 }
