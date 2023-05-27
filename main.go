@@ -10,9 +10,9 @@ func main() {
 	screenWidth := int32(800)
 	screenHeight := int32(450)
 
-	player := NewPlayer()
-
 	rl.InitWindow(screenWidth, screenHeight, "test")
+
+	player := NewPlayer("chars.png")
 
 	camera := rl.Camera2D{}
 	camera.Offset = rl.NewVector2(float32(screenWidth)/2, float32(screenHeight)/2)
@@ -28,14 +28,13 @@ func main() {
 	}
 	level := ParseWorld(string(levelContent))
 	tileset := rl.LoadTexture("tileset.png")
-	player_texture := rl.LoadTexture("chars.png")
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.BeginMode2D(camera)
 		rl.ClearBackground(rl.Black)
 		drawWorld(level, 0, 0, tileset)
-		drawPlayer(player_texture, int(player.pos.X), int(player.pos.Y), 0, 0, 1)
+		drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, 1)
 		player.Action(&level)
 		camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
 		rl.EndMode2D()
@@ -43,7 +42,7 @@ func main() {
 	}
 
 	rl.UnloadTexture(tileset)
-	rl.UnloadTexture(player_texture)
+	rl.UnloadTexture(player.texture)
 
 	rl.CloseWindow()
 }
