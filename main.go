@@ -50,7 +50,7 @@ func main() {
 			isGameOver = !player.CanMove(&level)
 			if player.Action(&level) {
 				player.CheckTrap(&level)
-				for i, _ := range level.enemies {
+				for i := range level.enemies {
 					level.enemies[i].Action(&level, &player)
 				}
 			}

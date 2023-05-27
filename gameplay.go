@@ -45,6 +45,7 @@ func NewPlayer(file string) Player {
 	p.texture = t
 	p.orientation = 2
 	p.health = 10
+	generateKeysRemoved(&p)
 	return p
 }
 
