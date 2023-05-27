@@ -1,23 +1,29 @@
 package main
 
 import (
-  "github.com/gen2brain/raylib-go/raylib"
+	"github.com/gen2brain/raylib-go/raylib"
 )
 
-/* trap :
-    - 0 : none
-    - 1 : poison
-    - 2 : enlève un mouvement
+/*
+trap :
+  - 0 : none
+  - 1 : poison
+  - 2 : enlève un mouvement
 */
 type Case struct {
-  trap int8
-  wall bool
-  tile string
+	trap int8
+	wall bool
+	tile string
 }
 
 type Enemy struct {
-  health int8
-  damage int8
-  aggroRange int8
-  pos rl.Vector2
+	health     int8
+	damage     int8
+	aggroRange int8
+	pos        rl.Vector2
+}
+
+type Level struct {
+	cases   [][]Case
+	enemies []Enemy
 }
