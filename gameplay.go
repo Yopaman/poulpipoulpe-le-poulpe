@@ -21,12 +21,12 @@ type Player struct {
 	health    int8
 	pos       rl.Vector2
 	inventory map[Item]int
-	keys      map[int]bool
+	keys      map[int32]bool
 }
 
 func NewPlayer() Player {
 	var p Player
-	p.keys = map[int]bool{
+	p.keys = map[int32]bool{
 		rl.KeyUp:    true,
 		rl.KeyLeft:  true,
 		rl.KeyDown:  true,
@@ -44,6 +44,38 @@ Sinon on ne fait rien.
 func (e *Enemy) Action() {
 }
 
-func (p *Player) Action() {
-
+func (p *Player) Action(l *Level) {
+  done := false
+  for !done {
+    key := rl.GetKeyPressed()
+    ok, err := p.keys[key]
+    if !err && ok {
+      switch key {
+      case rl.KeyUp:
+        v := l.cases[int(p.pos.X)][int(p.pos.Y)+1]
+        if v.kind != KindWall {
+          p.pos.Y += 1
+          done = true
+        }
+      case rl.KeyDown:
+        v := l.cases[int(p.pos.X)][int(p.pos.Y)-1]
+        if v.kind != KindWall {
+          p.pos.Y -= 1
+          done = true
+        }
+      case rl.KeyLeft:
+        v := l.cases[int(p.pos.X)-1][int(p.pos.Y)]
+        if v.kind != KindWall {
+          p.pos.X -= 1
+          done = true
+        }
+      case rl.KeyRight:
+        v := l.cases[int(p.pos.X)+1][int(p.pos.Y)]
+        if v.kind != KindWall {
+          p.pos.X += 1
+          done = true
+        }
+      }
+    }
+  }
 }

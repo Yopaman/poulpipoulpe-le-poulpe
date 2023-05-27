@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"strings"
 )
 
@@ -9,22 +10,23 @@ const (
 	KindBase = iota
 	// KindPoison 'P' is the kind for a poison trap
 	KindPoison
-	KindPoisonDeactivated
 	// KindMovement 'M' is the kind of a movement trap
 	KindMovement
-	KindMovementDeactivated
 	// KindWall '#' is the kind for a wall
 	KindWall
 )
 
 var RuneKinds = map[rune]Case{
-	'.': KindBase,
-	'P': KindPoison,
-	'M': KindMovement,
-	'#': KindWall,
+	'.': {KindBase, 0},
+	'P': {KindPoison, 0},
+	'M': {KindMovement, 0},
+	'#': {KindWall, 0},
 }
 
-type Case int
+type Case struct {
+  kind int
+  tile int
+}
 
 type Level struct {
 	cases   map[int](map[int]Case)
@@ -38,12 +40,15 @@ func ParseWorld(input string) Level {
 	}
 	for y, row := range strings.Split(strings.TrimSpace(input), "\n") {
 		for x, raw := range row {
-			kind, ok := RuneKinds[raw]
+			caseKind, ok := RuneKinds[raw]
 			if ok {
 				if w.cases[x] == nil {
 					w.cases[x] = make(map[int]Case)
 				}
-				w.cases[x][y] = kind
+        if caseKind.kind == KindWall {
+          caseKind.tile = rand.Intn(3)
+        }
+        w.cases[x][y] = caseKind
 			}
 		}
 	}
