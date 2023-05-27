@@ -77,14 +77,13 @@ func ParseEnemies(input string) []Enemy {
 	for y, row := range enemiesInput {
 		enemies[y] = Enemy{}
 		infos := strings.Split(strings.TrimSpace(row), " ")
-    if len(infos) != 6 {
+    if len(infos) != 5 {
       return enemies
     }
 		enemies[y].sort = readInt(infos[0])
 		enemies[y].health = readInt(infos[1])
-		enemies[y].damage = readInt(infos[2])
-		enemies[y].aggroRange = readInt(infos[3])
-		enemies[y].pos = rl.NewVector2(readFloat(infos[4]), readFloat(infos[5]))
+		enemies[y].aggroRange = readInt(infos[2])
+		enemies[y].pos = rl.NewVector2(readFloat(infos[3]), readFloat(infos[4]))
 	}
 	return enemies
 }

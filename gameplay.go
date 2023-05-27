@@ -77,19 +77,22 @@ Si il est à porté, on l'attaque
 Sinon on ne fait rien.
 */
 func (e *Enemy) Action(l *Level, p *Player) bool {
+  if e.health <= 0 {
+    e.pos.X = 300
+    e.pos.Y = 300
+  }
 	d := rl.Vector2Distance(p.pos, e.pos)
 	if d > float32(e.aggroRange) {
 		return false
 	}
+  if rl.Vector2Distance(p.pos, e.pos) <= 1 {
+    p.health--
+    return false
+  }
 	for _, offset := range [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
 		nv := rl.NewVector2(e.pos.X+float32(offset[0]), e.pos.Y+float32(offset[1]))
 		if n, ok := l.cases[int(nv.X)][int(nv.Y)]; ok && n.kind != KindWall && rl.Vector2Distance(nv, p.pos) < d {
-
 			e.pos = nv
-			if rl.Vector2Distance(p.pos, nv) <= 1 {
-				p.health--
-				return false
-			}
 			return true
 		}
 	}
@@ -99,7 +102,15 @@ func (e *Enemy) Action(l *Level, p *Player) bool {
 
 func (p *Player) Action(l *Level) bool {
 	if p.keys[rl.KeyUp] && rl.IsKeyPressed(rl.KeyUp) {
-		v := l.cases[int(p.pos.X)][int(p.pos.Y)-1]
+    npx := int(p.pos.X)
+    npy := int(p.pos.Y)-1
+		v := l.cases[npx][npy]
+    for i := range l.enemies {
+      if int(l.enemies[i].pos.X) == npx && int(l.enemies[i].pos.Y) == npy {
+        l.enemies[i].health--
+        return true
+      }
+    }
 		if v.kind != KindWall {
 			p.pos.Y -= 1
 			p.orientation = 0
@@ -107,7 +118,15 @@ func (p *Player) Action(l *Level) bool {
 			return true
 		}
 	} else if p.keys[rl.KeyDown] && rl.IsKeyPressed(rl.KeyDown) {
-		v := l.cases[int(p.pos.X)][int(p.pos.Y)+1]
+    npx := int(p.pos.X)
+    npy := int(p.pos.Y)+1
+		v := l.cases[npx][npy]
+    for i := range l.enemies {
+      if int(l.enemies[i].pos.X) == npx && int(l.enemies[i].pos.Y) == npy {
+        l.enemies[i].health--
+        return true
+      }
+    }
 		if v.kind != KindWall {
 			p.pos.Y += 1
 			p.orientation = 2
@@ -115,7 +134,15 @@ func (p *Player) Action(l *Level) bool {
 			return true
 		}
 	} else if p.keys[rl.KeyLeft] && rl.IsKeyPressed(rl.KeyLeft) {
-		v := l.cases[int(p.pos.X)-1][int(p.pos.Y)]
+    npx := int(p.pos.X)-1
+    npy := int(p.pos.Y)
+		v := l.cases[npx][npy]
+    for i := range l.enemies {
+      if int(l.enemies[i].pos.X) == npx && int(l.enemies[i].pos.Y) == npy {
+        l.enemies[i].health--
+        return true
+      }
+    }
 		if v.kind != KindWall {
 			p.pos.X -= 1
 			p.orientation = 3
@@ -123,7 +150,15 @@ func (p *Player) Action(l *Level) bool {
 			return true
 		}
 	} else if p.keys[rl.KeyRight] && rl.IsKeyPressed(rl.KeyRight) {
-		v := l.cases[int(p.pos.X)+1][int(p.pos.Y)]
+    npx := int(p.pos.X)+1
+    npy := int(p.pos.Y)
+		v := l.cases[npx][npy]
+    for i := range l.enemies {
+      if int(l.enemies[i].pos.X) == npx && int(l.enemies[i].pos.Y) == npy {
+        l.enemies[i].health--
+        return true
+      }
+    }
 		if v.kind != KindWall {
 			p.pos.X += 1
 			p.orientation = 1
