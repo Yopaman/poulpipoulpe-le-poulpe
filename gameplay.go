@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -83,7 +84,9 @@ func (e *Enemy) Action(l *Level, p *Player) bool {
 	for _, offset := range [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
 		nv := rl.NewVector2(e.pos.X+float32(offset[0]), e.pos.Y+float32(offset[1]))
 		if n, ok := l.cases[int(nv.X)][int(nv.Y)]; ok && n.kind != KindWall && rl.Vector2Distance(nv, p.pos) < d {
+			fmt.Printf("%v\n", e.pos)
 			e.pos = nv
+			fmt.Printf("%v\n", e.pos)
 			return true
 		}
 	}
@@ -129,14 +132,14 @@ func (p *Player) Action(l *Level) bool {
 }
 
 func (p *Player) CheckTrap(l *Level) bool {
-  if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindPoison && c.tile == 0 {
-    c.tile = 1
-    l.cases[int(p.pos.X)][int(p.pos.Y)] = c
-    // TODO
-  } else if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindMovement && c.tile == 0 {
-    c.tile = 1
-    l.cases[int(p.pos.X)][int(p.pos.Y)] = c
-    p.keys[int32(possibleKeys[rand.Intn(4)])] = false
-  }
-  return false
+	if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindPoison && c.tile == 0 {
+		c.tile = 1
+		l.cases[int(p.pos.X)][int(p.pos.Y)] = c
+		// TODO
+	} else if c, ok := l.cases[int(p.pos.X)][int(p.pos.Y)]; ok && c.kind == KindMovement && c.tile == 0 {
+		c.tile = 1
+		l.cases[int(p.pos.X)][int(p.pos.Y)] = c
+		p.keys[int32(possibleKeys[rand.Intn(4)])] = false
+	}
+	return false
 }

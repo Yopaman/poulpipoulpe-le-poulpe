@@ -150,3 +150,15 @@ func drawGameOverScreen(screenWidth int32, screenHeight int32) {
 	rl.DrawText("Game Over !", screenWidth/2-rl.MeasureText("Game Over !", 50)/2, screenHeight/2-30, 50, rl.White)
 	rl.DrawText("Appuyez sur une touche pour recommencer", screenWidth/2-rl.MeasureText("Appuyez sur une touche pour recommencer", 30)/2, screenHeight/2+100, 30, rl.White)
 }
+
+func drawEnnemy(texture rl.Texture2D, x int, y int) {
+	tile := rl.NewRectangle(112, 8, 8, 8)
+	position := rl.NewVector2(float32(x), float32(y))
+	rl.DrawTextureRec(texture, tile, position, rl.White)
+}
+
+func drawEnemies(texture rl.Texture2D, level *Level) {
+	for _, e := range level.enemies {
+		drawEnnemy(texture, int(e.pos.X*8), int(e.pos.Y*8))
+	}
+}
