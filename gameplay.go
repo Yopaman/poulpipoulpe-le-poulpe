@@ -44,38 +44,31 @@ Sinon on ne fait rien.
 func (e *Enemy) Action() {
 }
 
-func (p *Player) Action(l *Level) {
-  done := false
-  for !done {
-    key := rl.GetKeyPressed()
-    ok, err := p.keys[key]
-    if !err && ok {
-      switch key {
-      case rl.KeyUp:
-        v := l.cases[int(p.pos.X)][int(p.pos.Y)+1]
-        if v.kind != KindWall {
-          p.pos.Y += 1
-          done = true
-        }
-      case rl.KeyDown:
-        v := l.cases[int(p.pos.X)][int(p.pos.Y)-1]
-        if v.kind != KindWall {
-          p.pos.Y -= 1
-          done = true
-        }
-      case rl.KeyLeft:
-        v := l.cases[int(p.pos.X)-1][int(p.pos.Y)]
-        if v.kind != KindWall {
-          p.pos.X -= 1
-          done = true
-        }
-      case rl.KeyRight:
-        v := l.cases[int(p.pos.X)+1][int(p.pos.Y)]
-        if v.kind != KindWall {
-          p.pos.X += 1
-          done = true
-        }
-      }
+func (p *Player) Action(l *Level) bool {
+  if p.keys[rl.KeyUp] && rl.IsKeyPressed(rl.KeyUp) {
+    v := l.cases[int(p.pos.X)][int(p.pos.Y)-1]
+    if v.kind != KindWall {
+      p.pos.Y -= 1
+      return true
+    }
+  } else if p.keys[rl.KeyDown] && rl.IsKeyPressed(rl.KeyDown) {
+    v := l.cases[int(p.pos.X)][int(p.pos.Y)+1]
+    if v.kind != KindWall {
+      p.pos.Y += 1
+      return true
+    }
+  } else if p.keys[rl.KeyLeft] && rl.IsKeyPressed(rl.KeyLeft) {
+    v := l.cases[int(p.pos.X)-1][int(p.pos.Y)]
+    if v.kind != KindWall {
+      p.pos.X -= 1
+      return true
+    }
+  } else if p.keys[rl.KeyRight] && rl.IsKeyPressed(rl.KeyRight) {
+    v := l.cases[int(p.pos.X)+1][int(p.pos.Y)]
+    if v.kind != KindWall {
+      p.pos.X += 1
+      return true
     }
   }
+  return false
 }
