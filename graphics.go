@@ -64,3 +64,51 @@ func drawPlayer(texture rl.Texture2D, x int, y int, xMap int, yMap int, orientat
 
 	rl.DrawTextureRec(texture, tile, position, rl.White)
 }
+
+func drawArrows(texture rl.Texture2D, keys map[int32]bool, playerX float32, playerY float32) {
+	var tile1 rl.Rectangle
+	var tile2 rl.Rectangle
+	var tile3 rl.Rectangle
+	var tile4 rl.Rectangle
+	var position1 rl.Vector2
+	var position2 rl.Vector2
+	var position3 rl.Vector2
+	var position4 rl.Vector2
+
+	if keys[rl.KeyDown] {
+		tile1 = rl.NewRectangle(0, 0, 8, 8)
+		position1 = rl.NewVector2(float32(playerX), float32(playerY+8))
+	} else {
+		tile1 = rl.NewRectangle(0, 8, 8, 8)
+		position1 = rl.NewVector2(float32(playerX), float32(playerY+8))
+	}
+	if keys[rl.KeyLeft] {
+		tile2 = rl.NewRectangle(8, 0, 8, 8)
+		position2 = rl.NewVector2(float32(playerX-8), float32(playerY))
+	} else {
+		tile2 = rl.NewRectangle(8, 8, 8, 8)
+		position2 = rl.NewVector2(float32(playerX-8), float32(playerY))
+	}
+
+	if keys[rl.KeyUp] {
+		tile3 = rl.NewRectangle(16, 0, 8, 8)
+		position3 = rl.NewVector2(float32(playerX), float32(playerY-8))
+	} else {
+		tile3 = rl.NewRectangle(16, 8, 8, 8)
+		position3 = rl.NewVector2(float32(playerX), float32(playerY-8))
+	}
+
+	if keys[rl.KeyRight] {
+		tile4 = rl.NewRectangle(24, 0, 8, 8)
+		position4 = rl.NewVector2(float32(playerX+8), float32(playerY))
+	} else {
+		tile4 = rl.NewRectangle(24, 8, 8, 8)
+		position4 = rl.NewVector2(float32(playerX+8), float32(playerY))
+	}
+
+	rl.DrawTextureRec(texture, tile1, position1, rl.ColorAlpha(rl.White, 0.5))
+	rl.DrawTextureRec(texture, tile2, position2, rl.ColorAlpha(rl.White, 0.5))
+	rl.DrawTextureRec(texture, tile3, position3, rl.ColorAlpha(rl.White, 0.5))
+	rl.DrawTextureRec(texture, tile4, position4, rl.ColorAlpha(rl.White, 0.5))
+
+}
