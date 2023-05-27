@@ -50,8 +50,8 @@ func main() {
 			isGameOver = !player.CanMove(&level)
 			if player.Action(&level) {
 				player.CheckTrap(&level)
-				for _, e := range level.enemies {
-					e.Action(&level, &player)
+				for i, _ := range level.enemies {
+					level.enemies[i].Action(&level, &player)
 				}
 			}
 			for _, e := range level.enemies {
@@ -71,6 +71,9 @@ func main() {
 			drawNextKeys(arrowsBig, &player)
 			drawHealth(&player)
 			rl.EndDrawing()
+			if player.health <= 0 {
+				isGameOver = true
+			}
 		} else {
 			rl.BeginDrawing()
 			drawGameOverScreen(screenWidth, screenHeight)

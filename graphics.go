@@ -152,7 +152,7 @@ func drawNextKeys(texture rl.Texture2D, p *Player) {
 func drawGameOverScreen(screenWidth int32, screenHeight int32) {
 	rl.ClearBackground(rl.Black)
 	rl.DrawText("Game Over !", screenWidth/2-rl.MeasureText("Game Over !", 50)/2, screenHeight/2-30, 50, rl.White)
-	rl.DrawText("Appuyez sur une touche pour recommencer", screenWidth/2-rl.MeasureText("Appuyez sur une touche pour recommencer", 30)/2, screenHeight/2+100, 30, rl.White)
+	rl.DrawText("Appuyez sur R pour recommencer", screenWidth/2-rl.MeasureText("Appuyez sur R pour recommencer", 30)/2, screenHeight/2+100, 30, rl.White)
 }
 
 func drawEnnemy(texture rl.Texture2D, x int, y int) {
