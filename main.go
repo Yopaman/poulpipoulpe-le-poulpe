@@ -47,8 +47,15 @@ func main() {
 			drawWorld(level, 0, 0, tileset)
 			drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
 			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
-			player.Action(&level)
-			player.CheckTrap(&level)
+			if player.Action(&level) {
+        player.CheckTrap(&level)
+        for _, e := range level.enemies {
+          e.Action(&level, &player)
+        }
+      }
+      for _, e := range level.enemies{
+        drawEnnemy(tileset, int(e.pos.X)*8, int(e.pos.Y)*8)
+      }
       if player.CheckExit(&level) {
         currentLevel += 1
         level, err = ParseLevel(fmt.Sprintf("level%d.txt", currentLevel), fmt.Sprintf("enemies%d.txt", currentLevel))
@@ -59,10 +66,6 @@ func main() {
         player.pos = rl.NewVector2(6, 3)
       }
 			camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
-			for _, e := range level.enemies {
-				e.Action(&level, &player)
-				drawEnnemy(tileset, int(e.pos.X)*8, int(e.pos.Y)*8)
-			}
 			rl.EndMode2D()
 			drawNextKeys(arrowsBig, &player)
 			rl.EndDrawing()
