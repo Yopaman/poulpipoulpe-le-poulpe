@@ -11,6 +11,8 @@ func main() {
 	screenWidth := int32(800)
 	screenHeight := int32(450)
 
+	isGameOver := false
+
 	rl.InitWindow(screenWidth, screenHeight, "test")
 
 	player := NewPlayer("chars.png")
@@ -24,7 +26,9 @@ func main() {
 
 	rl.SetTargetFPS(60)
 
-	level, err := ParseLevel("level.txt", "enemies.txt")
+	currentLevel := "1"
+
+	level, err := ParseLevel("level"+currentLevel+".txt", "enemies"+currentLevel+".txt")
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
@@ -34,19 +38,25 @@ func main() {
 	arrowsBig := rl.LoadTexture("arrows_big.png")
 
 	for !rl.WindowShouldClose() {
-		camera.Zoom += rl.GetMouseWheelMove() * 0.05
-		camera.Zoom = float32(math.Max(float64(camera.Zoom), 3.0))
-		rl.BeginDrawing()
-		rl.BeginMode2D(camera)
-		rl.ClearBackground(rl.Black)
-		drawWorld(level, 0, 0, tileset)
-		drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
-		drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
-		player.Action(&level)
-		camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
-		rl.EndMode2D()
-		drawNextKeys(arrowsBig, &player)
-		rl.EndDrawing()
+		if !isGameOver {
+			camera.Zoom += rl.GetMouseWheelMove() * 0.05
+			camera.Zoom = float32(math.Max(float64(camera.Zoom), 3.0))
+			rl.BeginDrawing()
+			rl.BeginMode2D(camera)
+			rl.ClearBackground(rl.Black)
+			drawWorld(level, 0, 0, tileset)
+			drawPlayer(player.texture, int(player.pos.X), int(player.pos.Y), 0, 0, player.orientation)
+			drawArrows(arrows, player.keys, player.pos.X*8, player.pos.Y*8)
+			player.Action(&level)
+			camera.Target = rl.NewVector2(player.pos.X*8, player.pos.Y*8)
+			rl.EndMode2D()
+			drawNextKeys(arrowsBig, &player)
+			rl.EndDrawing()
+		} else {
+			rl.BeginDrawing()
+			drawGameOverScreen(screenWidth, screenHeight)
+			rl.EndDrawing()
+		}
 	}
 
 	rl.UnloadTexture(tileset)
