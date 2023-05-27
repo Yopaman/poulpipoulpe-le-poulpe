@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gen2brain/raylib-go/raylib"
 	"strings"
 )
 
@@ -10,30 +9,22 @@ const (
 	KindBase = iota
 	// KindPoison 'P' is the kind for a poison trap
 	KindPoison
+  KindPoisonDeactivated
 	// KindMovement 'M' is the kind of a movement trap
 	KindMovement
+  KindMovementDeactivated
 	// KindWall '#' is the kind for a wall
 	KindWall
 )
 
 var RuneKinds = map[rune]Case{
-	'.': Case{KindBase, true},
-	'P': Case{KindPoison, false},
-	'M': Case{KindMovement, false},
-	'#': Case{KindWall, true},
+	'.': KindBase,
+	'P': KindPoison,
+	'M': KindMovement,
+	'#': KindWall,
 }
 
-type Case struct {
-	kind       int
-	discovered bool
-}
-
-type Enemy struct {
-	health     int8
-	damage     int8
-	aggroRange int8
-	pos        rl.Vector2
-}
+type Case int
 
 type Level struct {
 	cases   map[int](map[int]Case)
