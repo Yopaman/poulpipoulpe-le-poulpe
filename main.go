@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	screenWidth := int32(800)
-	screenHeight := int32(450)
+	screenWidth := int32(1500)
+	screenHeight := int32(900)
 
 	isGameOver := false
 
